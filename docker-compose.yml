@@ -1,0 +1,19 @@
+services:
+  mmx-console:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MMX_API_TOKEN: ${MMX_API_TOKEN}
+    restart: unless-stopped
+
+  mmx-api:
+    build: .
+    command: gunicorn -b 0.0.0.0:8080 api:app
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MMX_API_TOKEN: ${MMX_API_TOKEN}
+    restart: unless-stopped
